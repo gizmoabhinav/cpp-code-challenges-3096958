@@ -12,12 +12,27 @@
 // Arguments:
 //           str: The string to analyze.
 // Returns: A boolean value. True for palindromes, false otherwise.
+
+char to_lower(char a) {
+    if (a >= 'a') {
+        return a-'a'+'A';
+    }
+    return a;
+}
+
+
 bool is_palindrome(std::string str){
 
-    // Write your code here
+    for (int i=0;i<str.size()/2;i++) {
+        if (to_lower(str[i]) != to_lower(str[str.size()-i-1])) {
+            return false;
+        }
+    }
 
-    return false;
+    return true;
 }
+
+
 
 // Main function
 int main(){

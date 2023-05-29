@@ -17,8 +17,18 @@
 // Returns: An STL vector of strings with the possible locations to move.
 std::vector<std::string> knight_moves(std::string knight){
     std::vector<std::string> moves;
-
-    // Write your code here
+    int dir[8][2] = {{1,2},{2,1},{-1,2},{-1,-2},{1,-2},{-2,1},{2,-1},{-2,-1}};
+    char column = knight[0];
+    char row = knight[1];
+    for (int i=0;i<8;i++) {
+        char new_column = column + dir[i][0];
+        char new_row = row + dir[i][1];
+        if (new_column < 'a' || new_column > 'h' || new_row < '0' || new_row > '8') {
+            continue;
+        }
+        std::string move = "";
+        moves.push_back(move+new_column+new_row);
+    }
 
     return moves;
 }

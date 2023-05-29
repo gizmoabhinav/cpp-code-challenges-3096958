@@ -15,10 +15,13 @@
 //           n: The argument of the last factorial to print.
 // Returns: n!, the last calculated factorial.
 int print_factorials(int n){
-    
-    // Write your code here
-
-    return 0;
+    if (n == 0) {
+        std::cout << 1 << std::endl;
+        return 1;
+    }
+    int value = print_factorials(n-1)*n;
+    std::cout << value << std::endl;
+    return value;
 }
 
 // Main function

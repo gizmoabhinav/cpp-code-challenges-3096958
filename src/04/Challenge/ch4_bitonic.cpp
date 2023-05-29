@@ -19,9 +19,66 @@
 //           v: A reference to the vector to analyze.
 // Returns: A boolean value: True for bitonic sequences, false otherwise.
 bool is_bitonic(const std::vector<int> &v){
-    
-    // Write your code here
+    if (v.size() <= 3) {
+        return true;
+    }
+    int i=0;
+    while (i<v.size()-1 && v[i] == v[i+1]) {
+        i++;
+    }
+    if (i == v.size()-1) {
+        return true;
+    }
+    i=0;
 
+    // First slope
+    if (v[i] < v[i+1]) {
+        while (i<v.size()-1 && v[i] <= v[i+1]) {
+            i++;
+        }
+    } else {
+        while (i<v.size()-1 && v[i] >= v[i+1]) {
+            i++;
+        }
+    }
+    if (i == v.size()-1) {
+        return true;
+    }
+
+    //second slope
+    if (v[i] < v[i+1]) {
+        while (i<v.size()-1 && v[i] <= v[i+1]) {
+            i++;
+        }
+    } else {
+        while (i<v.size()-1 && v[i] >= v[i+1]) {
+            i++;
+        }
+    }
+    if (i == v.size()-1) {
+        return true;
+    }
+
+    //third slope
+    bool is_rising = false;
+    if (v[i] < v[i+1]) {
+        is_rising = true;
+        while (i<v.size()-1 && v[i] <= v[i+1]) {
+            i++;
+        }
+    } else {
+        is_rising = false;
+        while (i<v.size()-1 && v[i] >= v[i+1]) {
+            i++;
+        }
+    }
+    if (i == v.size()-1) {
+        if (is_rising) {
+            return v[i]<=v[0];
+        } else {
+            return v[i]>=v[0];
+        }
+    }
     return false;
 }
 
