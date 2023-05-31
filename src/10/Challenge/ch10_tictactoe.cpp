@@ -34,14 +34,104 @@ void ask_for_move(char game[][3], char mark){
 //           mark: The AI's mark: 'X' or 'O'.
 // Returns: Nothing.
 
-#define TWO_PLAYERS
+// #define TWO_PLAYERS
 void make_move(char game[][3], char mark){ 
     #ifdef TWO_PLAYERS
     ask_for_move(game,mark);
     #else
     
-    // Write your code here and comment out the definition of TWO_PLAYERS above
+    char user_mark = (mark == 'O') ? 'X':'O';
+    
+    // check if any row is almost complete
+    for (int i=0;i<3;i++) {
+        if (game[i][0] + game[i][1] + game[i][2] == (user_mark*2)+(' ') || game[i][0] + game[i][1] + game[i][2] == (mark*2)+(' ')) {
+            for(int j=0;j<3;j++) {
+                if (game[i][j] == ' ') {
+                    game[i][j] = mark;
+                    return;
+                }
+            }
+        }
+    }
 
+    // check if any column is almost complete
+    for (int i=0;i<3;i++) {
+        if (game[0][i] + game[1][i] + game[2][i] == (user_mark*2)+(' ') || game[0][i] + game[1][i] + game[2][i] == (mark*2)+(' ')) {
+            for(int j=0;j<3;j++) {
+                if (game[j][i] == ' ') {
+                    game[j][i] = mark;
+                    return;
+                }
+            }
+        }
+    }
+
+    // check if diagonal is almost complete
+    if (game[0][0] + game[1][1] + game[2][2] == (user_mark*2)+(' ') || game[0][0] + game[1][1] + game[2][2] == (mark*2)+(' ')) {
+            if (game[0][0] == ' ') {
+                game[0][0] = mark;
+                return;
+            }
+            if (game[1][1] == ' ') {
+                game[1][1] = mark;
+                return;
+            }
+            if (game[2][2] == ' ') {
+                game[2][2] = mark;
+                return;
+            }
+    }
+    if (game[0][2] + game[1][1] + game[2][0] == (user_mark*2)+(' ') || game[0][2] + game[1][1] + game[2][0] == (mark*2)+(' ')) {
+            if (game[0][2] == ' ') {
+                game[0][2] = mark;
+                return;
+            }
+            if (game[1][1] == ' ') {
+                game[1][1] = mark;
+                return;
+            }
+            if (game[2][0] == ' ') {
+                game[2][0] = mark;
+                return;
+            }
+    }
+
+    // if you are second player try to fill center
+    // else fill corners
+    if (mark == 'O') {
+        if (game[1][1] == ' ') {
+            game[1][1] = mark;
+        } else if (game[0][1] == ' ') {
+            game[0][1] = mark;
+        } else if (game[1][0] == ' ') {
+            game[1][0] = mark;
+        } else if (game[1][1] == ' ') {
+            game[1][1] = mark;
+        } else if (game[2][1] == ' ') {
+            game[2][1] = mark;
+        }
+    } else if (game[1][1] == user_mark) {
+        if (game[0][0] == ' ') {
+            game[0][0] = mark;
+        } else if (game[2][2] == ' ') {
+            game[2][2] = mark;
+        } else if (game[2][0] == ' ') {
+            game[2][0] = mark;
+        } else if (game[0][2] == ' ') {
+            game[0][2] = mark;
+        } 
+    } else {
+        if (game[0][0] == ' ') {
+            game[0][0] = mark;
+        } else if (game[0][2] == ' ') {
+            game[0][2] = mark;
+        } else if (game[2][0] == ' ') {
+            game[2][0] = mark;
+        } else if (game[2][2] == ' ') {
+            game[2][2] = mark;
+        } 
+    }
+    return;
     #endif
     return;
 }
@@ -56,8 +146,43 @@ void make_move(char game[][3], char mark){
 //                                  'O': O won.
 //                                  't': A tie.
 char game_state(char game[][3]){
+    bool is_empty = false;
+    // check if any row is complete
+    for (int i=0;i<3;i++) {
+        if (game[i][0] + game[i][1] + game[i][2] == 'O'*3) {
+            return 'O';
+        } else if (game[i][0] + game[i][1] + game[i][2] == 'X'*3) {
+            return 'X';
+        }
+        if(game[i][0] == ' ' || game[i][1] == ' ' || game[i][2] == ' ') {
+            is_empty = true;
+        }
+    }
 
-    // Write your code here
+    // check if any column is complete
+    for (int i=0;i<3;i++) {
+        if (game[0][i] + game[1][i] + game[2][i] == 'O'*3){
+            return 'O';
+        } else if(game[0][i] + game[1][i] + game[2][i] == 'X'*3) {
+            return 'X';
+        }
+    }
+
+    // check if diagonal is complete
+    if (game[0][0] + game[1][1] + game[2][2] == 'O'*3){
+        return 'O';
+    } else if (game[0][0] + game[1][1] + game[2][2] == 'X'*3) {
+        return 'X';
+    }
+    if (game[0][2] + game[1][1] + game[2][0] == 'O'*3){
+        return 'O';
+    } else if (game[0][2] + game[1][1] + game[2][0] == 'X'*3) {
+        return 'X';
+    }
+
+    if (!is_empty) {
+        return 't';
+    }
 
     return 'a';
 }
